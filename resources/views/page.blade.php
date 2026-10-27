@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    @include('partials.head', [
+        'title' => $page['title'].' | JCA',
+        'description' => $page['intro'],
+    ])
+</head>
+<body>
+    @include('partials.header')
+
+    <main>
+        @if ($slug === 'consultation')
+            <section class="contact-section form-only-page appointment-form-page">
+                @include('partials.lead-form', [
+                    'formSource' => 'consultation',
+                    'pageSlug' => $slug,
+                    'submitLabel' => 'Demander le rendez-vous',
+                    'showAppointmentFields' => true,
+                ])
+            </section>
+        @elseif ($slug === 'contact')
+            <section class="contact-section contact-business-page">
+                <div class="contact-business-card">
+                    <a class="brand contact-brand" href="{{ $publicRoute('home') }}">
+                        <img class="brand-logo" src="{{ asset('images/logo_off.webp') }}" alt="Logo JCA">
+                        <span>
+                            <strong>{{ $siteSettings['brand_name'] ?? 'JCA' }}</strong>
+                            <small>{{ __($siteSettings['brand_tagline'] ?? 'Immigration, recrutement et coopération') }}</small>
+                        </span>
+                    </a>
+                    <div>
+                        <span class="eyebrow">{{ __('Contact JCA') }}</span>
+                        <h1>{{ __('Parlons de votre projet international.') }}</h1>
+                        <p>{{ __('Présentez votre situation, votre besoin ou votre proposition de collaboration. L’équipe JCA vous orientera vers la bonne prochaine étape.') }}</p>
+                    </div>
+                    <div class="contact-info-list">
+                        <a href="mailto:{{ $siteSettings['contact_email'] ?? 'contact@jcaconseil.com' }}">
+                            <strong>{{ __('Email') }}</strong>
+                            <span>{{ $siteSettings['contact_email'] ?? 'contact@jcaconseil.com' }}</span>
+                        </a>
+                        <a href="tel:+221789685116">
+                            <strong>{{ __('Téléphone / WhatsApp') }} {{ __('Sénégal') }}</strong>
+                            <span>🇸🇳 +221 78 968 51 16</span>
+                        </a>
+                        <a href="{{ route('public.appointments') }}">
+                            <strong>{{ __('Rendez-vous') }}</strong>
+                            <span>{{ __('Formulaire direct, sans inscription obligatoire') }}</span>
+                        </a>
+                    </div>
+                </div>
+                @include('partials.lead-form', [
+                    'formSource' => 'contact',
+                    'pageSlug' => $slug,
+                    'submitLabel' => 'Envoyer le message',
+                    'showAppointmentFields' => false,
+                ])
+            </section>
+        @else
+            <section class="page-hero page-hero-art is-immersive {{ $slug === 'qui-sommes-nous' ? 'page-hero-about' : '' }} {{ $slug === 'confidentialite' ? 'page-hero-privacy' : '' }} {{ $slug === 'services' ? 'page-hero-services' : '' }}">
+                <div>
+                    <span class="eyebrow">{{ __($page['eyebrow']) }}</span>
+                    <h1>{{ __($page['title']) }}</h1>
+                    <p>{{ __($page['intro']) }}</p>
+                    <div class="hero-actions">
+                        <a class="button primary" href="{{ route('public.appointments') }}">{{ __('Prendre rendez-vous') }}</a>
+                        <a class="button ghost" href="{{ $publicRoute('page.show', 'contact') }}">{{ __('Nous contacter') }}</a>
+                    </div>
+                </div>
+
+                @if ($slug === 'qui-sommes-nous')
+                    <div class="about-hero-signature">
+                        <span class="about-orbit about-orbit-1" aria-hidden="true"></span>
+                        <span class="about-orbit about-orbit-2" aria-hidden="true"></span>
+                        <article class="about-hero-seal">
+                            <img src="{{ asset('images/logo_off.webp') }}" alt="">
+                            <strong>{{ __('Juristyle Conseil') }}</strong>
+                            <small>{{ __('Accompagnement international') }}</small>
+                        </article>
+                        <article>
+                            <strong>{{ __('Rigueur') }}</strong>
+                            <small>{{ __('Méthode') }}</small>
+                        </article>
+                        <article>
+                            <strong>{{ __('Mobilité') }}</strong>
+                            <small>{{ __('Talents') }}</small>
+                        </article>
+                    </div>
+                @elseif ($slug === 'confidentialite')
+                    <div class="privacy-hero-mark">
+                        <span class="privacy-ring privacy-ring-1" aria-hidden="true"></span>
+                        <span class="privacy-ring privacy-ring-2" aria-hidden="true"></span>
+                        <div class="privacy-shield" aria-hidden="true">
+                            <span></span>
+                        </div>
+                        <article>
+                            <strong>{{ __('Protection') }}</strong>
+                            <small>{{ __('Données encadrées') }}</small>
+                        </article>
+                        <article>
+                            <strong>{{ __('Accès limité') }}</strong>
+                            <small>{{ __('Discrétion professionnelle') }}</small>
+                        </article>
+                    </div>
+                @elseif ($slug === 'services')
+                    <div class="service-hero-command" aria-hidden="true">
+                        <span class="service-command-ring service-command-ring-1"></span>
+                        <span class="service-command-ring service-command-ring-2"></span>
+                        <div class="service-command-core">
+                            <span class="service-icon service-icon-4"></span>
+                            <strong>{{ __('JCA') }}</strong>
+                            <small>{{ __('Services') }}</small>
+                        </div>
+                        <article>
+                            <span class="service-icon service-icon-1"></span>
+                            <strong>{{ __('Immigration') }}</strong>
+                            <small>{{ __('Parcours structurés') }}</small>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-2"></span>
+                            <strong>{{ __('Talents') }}</strong>
+                            <small>{{ __('Recrutement ciblé') }}</small>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-3"></span>
+                            <strong>{{ __('Coopération') }}</strong>
+                            <small>{{ __('Partenariats utiles') }}</small>
+                        </article>
+                    </div>
+                @else
+                    <div class="page-hero-collage" aria-hidden="true">
+                        <img src="{{ asset('images/jca-hero.webp') }}" alt="">
+                        <img src="{{ asset('images/jca-immigration.webp') }}" alt="">
+                        <img src="{{ asset('images/jca-cooperation.webp') }}" alt="">
+                    </div>
+                @endif
+            </section>
+
+            @if ($slug === 'qui-sommes-nous')
+                <section class="story-showcase about-showcase">
+                    <div class="story-copy about-copy">
+                        <span class="eyebrow">{{ __('À propos') }}</span>
+                        <h2>{{ __('Un cabinet international guidé par le sens et la rigueur.') }}</h2>
+                        <p class="about-credentials">{{ __('Avocat (Barreau du Québec) / Expert en gouvernance, sécurité et politiques publiques en Afrique de l’Ouest / Gestionnaire de projets internationaux / Auteur') }}</p>
+                        <p class="about-signature-text">{{ __('Fort d’une expertise reconnue en immigration, mobilité internationale et développement, Me NDIAYE accompagne depuis des années une clientèle variée à travers le monde — particuliers, entreprises, gouvernements et organisations internationales — dans leurs démarches les plus stratégiques, notamment dans les projets d’immigration, de recrutement international ainsi que dans leurs démarches juridiques.') }}</p>
+                        <div class="about-pillars">
+                            <article>
+                                <span>{{ __('Notre vision') }}</span>
+                                <h3>{{ __('Être une référence internationale du conseil en mobilité et développement.') }}</h3>
+                                <p>{{ __('Nous croyons en un monde où le talent et l’ambition peuvent circuler librement, porter des projets utiles, et contribuer à un développement durable et inclusif.') }}</p>
+                            </article>
+                            <article>
+                                <span>{{ __('Notre mission') }}</span>
+                                <h3>{{ __('Faciliter la mobilité des talents et soutenir le développement durable.') }}</h3>
+                                <p>{{ __('De l’analyse stratégique au suivi opérationnel, nous concevons des solutions sur mesure, alliant expertise juridique, connaissance des marchés et sensibilité aux réalités locales.') }}</p>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="about-presentation-board" aria-label="Presentation JCA">
+                        <div class="about-board-core">
+                            <span>{{ __('JCA') }}</span>
+                            <strong>{{ __('Conseil, mobilité et impact') }}</strong>
+                        </div>
+                        <article>
+                            <span class="service-icon service-icon-1" aria-hidden="true"></span>
+                            <strong>{{ __('Parcours') }}</strong>
+                            <p>{{ __('Clarifier les étapes et sécuriser les décisions importantes.') }}</p>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-2" aria-hidden="true"></span>
+                            <strong>{{ __('Talents') }}</strong>
+                            <p>{{ __('Relier les profils, les organisations et les opportunités.') }}</p>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-3" aria-hidden="true"></span>
+                            <strong>{{ __('Partenariats') }}</strong>
+                            <p>{{ __('Structurer des collaborations utiles, mesurables et durables.') }}</p>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="about-values-section">
+                    <div class="section-heading">
+                        <span class="eyebrow">{{ __('Nos valeurs') }}</span>
+                        <h2>{{ __('Six engagements qui guident chacune de nos missions.') }}</h2>
+                    </div>
+                    <div class="about-values-grid">
+                        <article><span>01</span><h3>{{ __('Excellence') }}</h3><p>{{ __('Une exigence de qualité dans chaque livrable.') }}</p></article>
+                        <article><span>02</span><h3>{{ __('Intégrité') }}</h3><p>{{ __('Une éthique irréprochable au service du client.') }}</p></article>
+                        <article><span>03</span><h3>{{ __('Professionnalisme') }}</h3><p>{{ __('Des équipes formées aux meilleurs standards internationaux.') }}</p></article>
+                        <article><span>04</span><h3>{{ __('Innovation') }}</h3><p>{{ __('Des méthodes agiles au service de résultats concrets.') }}</p></article>
+                        <article><span>05</span><h3>{{ __('Inclusion') }}</h3><p>{{ __('La diversité comme moteur de performance.') }}</p></article>
+                        <article><span>06</span><h3>{{ __('Responsabilité sociale') }}</h3><p>{{ __('Un impact positif et durable pour les communautés.') }}</p></article>
+                    </div>
+                </section>
+            @elseif ($slug === 'equipe')
+                <section class="team-showcase about-showcase">
+                    <div class="team-copy about-copy">
+                        <span class="eyebrow">{{ __('Équipe') }}</span>
+                        <h2>{{ __('Une équipe pluridisciplinaire au service de vos projets.') }}</h2>
+                        <p>{{ __('JCA réunit des expertises complémentaires en immigration, mobilité internationale, recrutement, coopération et conseil stratégique. Chaque projet est confié à une équipe mobilisée autour d\'un objectif commun : servir vos ambitions avec rigueur et intégrité.') }}</p>
+                    </div>
+                    <div class="team-members-grid" aria-label="{{ __('Membres de l’équipe') }}">
+                        <article class="team-member-card">
+                            <div class="team-member-image">
+                                <img src="{{ asset('images/logo_off.webp') }}" alt="Me Ousmane NDIAYE" loading="lazy">
+                            </div>
+                            <div class="team-member-info">
+                                <h3>Me Ousmane NDIAYE</h3>
+                                <span class="team-member-role">{{ __('Avocat au Barreau du Québec') }}</span>
+                                <p class="team-member-credentials">{{ __('Expert en gouvernance, sécurité et politiques publiques en Afrique de l’Ouest | Gestionnaire de projets internationaux | Auteur') }}</p>
+                                <div class="team-member-bio">
+                                    <p>{{ __('Fort d’une solide expérience en immigration, en mobilité internationale et en développement, Me NDIAYE accompagne depuis plusieurs années une clientèle diversifiée au Canada, en Afrique et à l’international.') }}</p>
+                                    <p>{{ __('Son expertise s’étend notamment à l’immigration, au recrutement international, à la mobilité des talents et à l’accompagnement juridique, auprès de particuliers, d’entreprises, d’institutions publiques et d’organisations internationales.') }}</p>
+                                    <p>{{ __('À travers une approche à la fois stratégique, rigoureuse et personnalisée, Me NDIAYE intervient dans des projets nécessitant une compréhension approfondie des enjeux juridiques, institutionnels et internationaux. Son parcours en gouvernance, sécurité et politiques publiques en Afrique de l’Ouest lui permet également d’apporter une vision globale aux projets de développement et de coopération internationale.') }}</p>
+                                    <p>{{ __('En tant que gestionnaire de projets internationaux et auteur, il met son expertise au service de projets porteurs d’impact, en favorisant la création de passerelles entre les personnes, les organisations et les territoires.') }}</p>
+                                    <p><strong>{{ __('Sa mission :') }}</strong> {{ __('offrir un accompagnement fiable et stratégique pour transformer les projets de mobilité, d’immigration, de recrutement et de coopération internationale en parcours structurés et durables.') }}</p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="team-expertise">
+                    <div class="section-heading">
+                        <span class="eyebrow">{{ __('Domaines d\'expertise') }}</span>
+                        <h2>{{ __('Les compétences qui font la différence.') }}</h2>
+                    </div>
+                    <div class="team-expertise-grid">
+                        <article>
+                            <span class="service-icon service-icon-1" aria-hidden="true"></span>
+                            <h3>{{ __('Conseil et orientation') }}</h3>
+                            <p>{{ __('Analyse des besoins, clarification des options et accompagnement des décisions importantes.') }}</p>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-2" aria-hidden="true"></span>
+                            <h3>{{ __('Immigration et mobilité') }}</h3>
+                            <p>{{ __('Préparation, organisation et suivi des démarches avec attention particulière à la qualité des informations.') }}</p>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-3" aria-hidden="true"></span>
+                            <h3>{{ __('Recrutement international') }}</h3>
+                            <p>{{ __('Lecture des besoins employeurs, valorisation des profils et coordination des parcours candidats.') }}</p>
+                        </article>
+                        <article>
+                            <span class="service-icon service-icon-4" aria-hidden="true"></span>
+                            <h3>{{ __('Coopération et partenariats') }}</h3>
+                            <p>{{ __('Structuration de collaborations avec institutions, organisations, employeurs et partenaires techniques.') }}</p>
+                        </article>
+                    </div>
+                </section>
+            @endif
+
+            @php
+                $visualRibbon = match ($slug) {
+                    'confidentialite' => [
+                        ['image' => 'jca-hero.webp', 'alt' => 'Cadre confidentiel', 'label' => 'Données'],
+                        ['image' => 'jca-immigration.webp', 'alt' => 'Documents confidentiels', 'label' => 'Documents'],
+                        ['image' => 'jca-cooperation.webp', 'alt' => 'Suivi professionnel', 'label' => 'Suivi'],
+                    ],
+                    'immigration' => [
+                        ['image' => 'jca-immigration.webp', 'alt' => 'Mobilité internationale', 'label' => 'Dossier'],
+                        ['image' => 'jca-hero.webp', 'alt' => 'Analyse du parcours', 'label' => 'Parcours'],
+                        ['image' => 'jca-cooperation.webp', 'alt' => 'Préparation internationale', 'label' => 'Préparation'],
+                    ],
+                    'recrutement-international' => [
+                        ['image' => 'jca-recruitment.webp', 'alt' => 'Recrutement international', 'label' => 'Profils'],
+                        ['image' => 'jca-hero.webp', 'alt' => 'Employeurs internationaux', 'label' => 'Employeurs'],
+                        ['image' => 'jca-immigration.webp', 'alt' => 'Mobilité professionnelle', 'label' => 'Mobilité'],
+                    ],
+                    'cooperation-internationale' => [
+                        ['image' => 'jca-cooperation.webp', 'alt' => 'Coopération internationale', 'label' => 'Projets'],
+                        ['image' => 'jca-recruitment.webp', 'alt' => 'Partenaires techniques', 'label' => 'Acteurs'],
+                        ['image' => 'jca-hero.webp', 'alt' => 'Impact international', 'label' => 'Impact'],
+                    ],
+                    default => [],
+                };
+            @endphp
+
+            @if (! empty($visualRibbon))
+                <section class="page-visual-ribbon" aria-label="Univers visuel JCA">
+                    @foreach ($visualRibbon as $visual)
+                        <article>
+                            <img src="{{ asset('images/'.$visual['image']) }}" alt="{{ $visual['alt'] }}" loading="lazy">
+                            <span>{{ __($visual['label']) }}</span>
+                        </article>
+                    @endforeach
+                </section>
+            @endif
+
+            @if ($slug === 'collaboration')
+                <section class="page-context-art collaboration-context">
+                    <div>
+                        <span class="eyebrow">{{ __('Collaboration') }}</span>
+                        <h2>{{ __('Des partenariats lisibles, utiles et bien coordonnés.') }}</h2>
+                    </div>
+                    <div class="context-art-grid" aria-label="Collaboration JCA">
+                        <article>
+                            <img src="{{ asset('images/jca-cooperation.webp') }}" alt="Organisations partenaires" loading="lazy">
+                            <span>{{ __('Organisations') }}</span>
+                        </article>
+                        <article>
+                            <img src="{{ asset('images/jca-recruitment.webp') }}" alt="Cadre de collaboration" loading="lazy">
+                            <span>{{ __('Cadre commun') }}</span>
+                        </article>
+                        <article>
+                            <img src="{{ asset('images/jca-hero.webp') }}" alt="Impact des partenariats" loading="lazy">
+                            <span>{{ __('Impact mesurable') }}</span>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="collaboration-contact-showcase">
+                    <div class="collaboration-contact-copy">
+                        <span class="eyebrow">{{ __('Contact partenaire') }}</span>
+                        <h2>{{ __('Parlez-nous de votre organisation.') }}</h2>
+                        <p>{{ __('JCA analyse les besoins, le cadre de collaboration et les prochaines étapes avec une approche claire et confidentielle.') }}</p>
+                    </div>
+                    <div class="collaboration-contact-grid">
+                        <a href="mailto:{{ $siteSettings['contact_email'] ?? 'contact@jcaconseil.com' }}">
+                            <span>{{ __('Email') }}</span>
+                            <strong>{{ $siteSettings['contact_email'] ?? 'contact@jcaconseil.com' }}</strong>
+                        </a>
+                        <a href="tel:+221789685116">
+                            <span>{{ __('Téléphone / WhatsApp') }} {{ __('Sénégal') }}</span>
+                            <strong>🇸🇳 +221 78 968 51 16</strong>
+                        </a>
+                        @if (! empty($siteSettings['collaboration_document_path']))
+                            <a class="collaboration-document-card" href="{{ route('public.collaboration-document.download') }}">
+                                <span>{{ __('Dossier de collaboration') }}</span>
+                                <strong>{{ $siteSettings['collaboration_document_name'] ?: __('Lire et télécharger') }}</strong>
+                            </a>
+                        @else
+                            <a class="collaboration-document-card" href="{{ $publicRoute('page.show', 'contact') }}">
+                                <span>{{ __('Dossier de collaboration') }}</span>
+                                <strong>{{ __('Disponible sur demande') }}</strong>
+                            </a>
+                        @endif
+                    </div>
+                </section>
+            @endif
+
+            @php
+                $iconPages = ['services', 'collaboration', 'confidentialite'];
+                $usesIcons = in_array($slug, $iconPages, true);
+                $sectionTranslations = [
+                    'Je veux immigrer au Canada (Visa visiteur, Permis de travail, Permis d\'études, RP, Parrainage, Citoyenneté)' => 'I want to immigrate to Canada (Visitor visa, Work permit, Study permit, PR, Sponsorship, Citizenship)',
+                    'Je suis employeur (Recrutement international, EIMT, Mobilité des travailleurs, Accompagnement employeur)' => 'I am an employer (International recruitment, LMIA, Worker mobility, Employer support)',
+                    'Je suis partenaire (Coopération, Développement international, Projets, Partenariats institutionnels)' => 'I am a partner (Cooperation, International development, projects, institutional partnerships)',
+                ];
+                $serviceDetails = [
+                    [
+                        'id' => 'immigration-canada',
+                        'title' => 'Je veux immigrer au Canada (Visa visiteur, Permis de travail, Permis d\'études, RP, Parrainage, Citoyenneté)',
+                        'summary' => 'Visa visiteur, permis de travail, permis d\'études, résidence permanente, parrainage et citoyenneté.',
+                        'description' => 'JCA accompagne les personnes, familles, étudiants, travailleurs et employeurs dans la préparation de parcours migratoires lisibles. L’accompagnement porte sur l’analyse du profil, la cohérence documentaire, les étapes administratives, les risques à anticiper et les prochaines décisions à prendre.',
+                        'points' => ['Analyse du profil', 'Préparation documentaire', 'Suivi des étapes sensibles'],
+                        'image' => 'jca-immigration.webp',
+                    ],
+                    [
+                        'id' => 'employeur',
+                        'title' => 'Je suis employeur (Recrutement international, EIMT, Mobilité des travailleurs, Accompagnement employeur)',
+                        'summary' => 'Recrutement international, EIMT, mobilité des travailleurs et accompagnement employeur.',
+                        'description' => 'JCA aide les employeurs à clarifier leurs besoins, identifier des profils qualifiés et organiser un processus de recrutement international plus fiable. Le service relie préqualification, coordination candidat, mobilité professionnelle et préparation de l’intégration.',
+                        'points' => ['Sourcing ciblé', 'Préqualification des talents', 'Coordination employeur-candidat'],
+                        'image' => 'jca-recruitment.webp',
+                    ],
+                    [
+                        'id' => 'partenaire',
+                        'title' => 'Je suis partenaire (Coopération, Développement international, Projets, Partenariats institutionnels)',
+                        'summary' => 'Coopération, développement international, projets et partenariats institutionnels.',
+                        'description' => 'JCA structure des collaborations entre institutions, organisations, employeurs et partenaires techniques. L’objectif est de transformer une intention de partenariat en cadre de travail clair: objectifs, rôles, calendrier, gouvernance et résultats attendus.',
+                        'points' => ['Objectifs et gouvernance', 'Partenaires et territoires', 'Résultats mesurables'],
+                        'image' => 'jca-cooperation.webp',
+                    ],
+                ];
+            @endphp
+
+            @if ($slug === 'services')
+                <section class="services-excellence">
+                    <div class="section-heading">
+                        <span class="eyebrow">{{ __('Expertises JCA') }}</span>
+                        <h2>{{ __('Un cabinet, quatre domaines d’excellence.') }}</h2>
+                        <p>{{ __('Chaque mission est confiée à une équipe pluridisciplinaire, réunie autour d’un objectif : servir vos ambitions avec rigueur, intégrité et une vision internationale.') }}</p>
+                    </div>
+                    <div class="service-domain-grid">
+                        @foreach ($serviceDetails as $service)
+                            <article class="service-domain-card reveal">
+                                <span class="service-icon service-icon-{{ $loop->iteration }}" aria-hidden="true"></span>
+                                <h3>{{ __(app()->getLocale() === 'en' ? ($sectionTranslations[$service['title']] ?? $service['title']) : $service['title']) }}</h3>
+                                <p>{{ __($service['summary']) }}</p>
+                                <a class="button ghost" href="#{{ $service['id'] }}">{{ __('En savoir plus') }}</a>
+                            </article>
+                        @endforeach
+                    </div>
+                </section>
+
+                <section class="service-detail-stack">
+                    @foreach ($serviceDetails as $service)
+                        <article class="service-detail-panel reveal" id="{{ $service['id'] }}">
+                            <div class="service-detail-image">
+                                <img src="{{ asset('images/'.$service['image']) }}" alt="{{ $service['title'] }}" loading="lazy">
+                            </div>
+                            <div class="service-detail-copy">
+                                <span class="service-detail-count">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                <span class="eyebrow">{{ __('Service') }}</span>
+                                <h2>{{ __(app()->getLocale() === 'en' ? ($sectionTranslations[$service['title']] ?? $service['title']) : $service['title']) }}</h2>
+                                <p>{{ __($service['description']) }}</p>
+                                <ul class="service-detail-points" aria-label="{{ __('Points clés') }}">
+                                    @foreach ($service['points'] as $point)
+                                        <li>{{ __($point) }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </article>
+                    @endforeach
+                </section>
+
+                <section class="service-proof-band">
+                    <div class="service-trust-card reveal">
+                        <span class="service-icon service-icon-5" aria-hidden="true"></span>
+                        <div>
+                            <span class="eyebrow">{{ __('Relation de confiance') }}</span>
+                            <h3>{{ __('Espace client sécurisé') }}</h3>
+                            <p>{{ __('Après l’ouverture d’un dossier, le client peut transmettre ses documents, suivre les demandes et conserver les échanges importants dans un espace organisé et confidentiel.') }}</p>
+                        </div>
+                    </div>
+                </section>
+            @elseif ($slug !== 'qui-sommes-nous')
+                <section class="content-band {{ $usesIcons ? 'services-minimal-band services-minimal-band-'.$slug : '' }}">
+                    <div class="section-heading">
+                        <span class="eyebrow">{{ __($usesIcons ? $page['eyebrow'] : 'Expertise') }}</span>
+                        <h2>
+                            @if ($slug === 'collaboration')
+                                {{ __('Collaborer avec JCA, simplement.') }}
+                            @elseif ($slug === 'confidentialite')
+                                {{ __('Vos informations restent encadrées.') }}
+                            @else
+                                {{ __('Un accompagnement structuré et confidentiel') }}
+                            @endif
+                        </h2>
+                    </div>
+                    <div class="{{ $usesIcons ? 'service-icon-grid service-icon-grid-'.$slug : 'cards-grid' }}">
+                        @foreach ($page['sections'] as $section)
+                            <article class="{{ $usesIcons ? 'service-icon-card reveal' : 'info-card reveal' }}">
+                                @if ($usesIcons)
+                                    <span class="service-card-index">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <span class="service-icon service-icon-{{ $loop->iteration }}" aria-hidden="true"></span>
+                                @else
+                                    <span>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                @endif
+                                <h3>{{ app()->getLocale() === 'en' ? ($sectionTranslations[$section[0]] ?? __($section[0])) : __($section[0]) }}</h3>
+                                @if (($section[1] ?? '') !== '')
+                                    <p>{{ __($section[1]) }}</p>
+                                @endif
+                            </article>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
+            <section class="cta-band">
+                <span class="eyebrow">{{ __('Prochaine étape') }}</span>
+                <h2>{{ __('Transformez votre projet international en feuille de route claire.') }}</h2>
+                <a class="button primary" href="{{ $publicRoute('page.show', 'consultation') }}">{{ __('Demander une consultation') }}</a>
+            </section>
+        @endif
+    </main>
+
+    @include('partials.footer')
+    @include('partials.cookie-banner')
+</body>
+</html>
